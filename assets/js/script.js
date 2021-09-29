@@ -105,7 +105,20 @@ function createToday(data, cityName){
     todayWeather.append(todayWind);
     todayWeather.append(todayHumidity);
     todayWeather.append(todayUV);
-}
+    todayUV.css("color", "white");
+    if (data.current.uvi < 3) {
+        todayUV.css("background-color", "green");
+    }  else if (data.current.uvi >= 3 && data.current.uvi < 6){
+        todayUV.css("background-color", "yellow");
+        todayUV.css("color", "black");
+    } else if (data.current.uvi >= 6 && data.current.uvi < 8) {
+        todayUV.css("background-color", "orange");
+    } else if (data.current.uvi >= 8 && data.current.uvi < 11){
+        todayUV.css("background-color", "red");
+    } else {
+        todayUV.css("background-color", "violet");
+    }
+ }
 
 function createForecast(data, i){
     forecastWeather.append($('<div class="forecastCard"></div>'))
