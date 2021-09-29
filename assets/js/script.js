@@ -50,7 +50,7 @@ $("#cityButton").on("click", function(){
     city = cityNameEl.val();
     cityArray.push(city);
     localStorage.setItem("cityArray", JSON.stringify(cityArray))
-    let queryURLCity = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + APIKey;
+    let queryURLCity = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + APIKey;
     fetchWeather(queryURLCity);
 });
 
