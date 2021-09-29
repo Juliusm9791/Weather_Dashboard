@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Weather Dashboard</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/> -->
+  <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/style.css'>
+</head>
+<body>
+  <header>
+    <h1>Weather Dashboard</h1>
+  </header>
+  <aside>
+    <p>Select a maintenance drone:</p>
+
+    <div>
+      <input type="radio" id="metric" name="units" value="metric">
+      <label for="metric">Celsius</label>
+    </div>
+    
+    <div>
+      <input type="radio" id="imperial" name="units" value="imperial" checked>
+      <label for="imperial">Fahrenheit</label>
+    </div>
+
+    <label for="city">Search for a City:</label>
+    <input type="text" id="city" name="name">
+    <button type="button" id="cityButton">Search</button>
+  </aside>
+  <section>
+    <div id ="todayWeather">
+      </div>
+    <div id ="forecastWeather">
+  <h1>five days forecast </h1>
+    </div>
+  </section>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+  <script src='./assets/js/script.js'></script>
+</body>
+</html>
