@@ -5,6 +5,9 @@ let todayWeather = $("#todayWeather");
 let cityArrayButtons = $("#ArrayButtons");
 
 let city = null;
+let metricUnitsArray = [" °C", " m/s", " %"];
+let imperialUnitsArray = [" °F", " MPH", " %"];
+let unitsArray = imperialUnitsArray;
 let units = "imperial"; // metric
 let weatherTodayAndF = null;
 
@@ -39,10 +42,16 @@ $('input[type=radio][name=units]').change(function() {
     if (this.value === 'metric') {
         units = $("#metric").val()
         console.log(units)
+        unitsArray = [];
+        unitsArray = metricUnitsArray;
+        console.log(unitsArray)
     }
     else if (this.value === 'imperial') {
         units = $("#imperial").val()
         console.log(units)
+        unitsArray = [];
+        unitsArray = imperialUnitsArray;
+        console.log(unitsArray)
     }
 });
 
@@ -95,39 +104,43 @@ function fetchWeather(queryURLCity) {
 function createToday(data, cityName){
     console.log(todayWeather)
     todayWeather.empty();
+    let weathericonLink = "http://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png";
     let cityToday = $('<h1>' + cityName + ' ' + moment.unix(data.current.dt).format("(MM/DD/YYYY)") + '</h1>');
-    let todayTemp = $('<p>' + data.current.temp + '</p>');
-    let todayWind = $('<p>' + data.current.wind_speed + '</p>');
-    let todayHumidity = $('<p>' + data.current.humidity + '</p>');
-    let todayUV = $('<p>' + data.current.uvi + '</p>');
+    let weathericon = $('<div class="icon"><img src="' + weathericonLink + '" alt="Weather icon"></div>');
+    let todayTemp = $('<p>' + "Temp: " + Math.round(data.current.temp) + unitsArray[0] + '</p>');
+    let todayWind = $('<p>' +  "Wind: " + data.current.wind_speed +  unitsArray[1] +'</p>');
+    let todayHumidity = $('<p>' +  "Humidity: " + data.current.humidity +  unitsArray[2] +'</p>');
+    let todayUV = $('<p>' +  "UV Index: " + "<span id='uviColor'>" + data.current.uvi + "</span></p>" );
     todayWeather.append(cityToday);
+    todayWeather.append(weathericon);
     todayWeather.append(todayTemp);
     todayWeather.append(todayWind);
     todayWeather.append(todayHumidity);
     todayWeather.append(todayUV);
-    todayUV.css("color", "white");
     if (data.current.uvi < 3) {
-        todayUV.css("background-color", "green");
+        $("#uviColor").css({"background-color": "green", "color": "white"});
     }  else if (data.current.uvi >= 3 && data.current.uvi < 6){
-        todayUV.css("background-color", "yellow");
-        todayUV.css("color", "black");
+        $("#uviColor").css({"background-color": "yellow", "color": "black"});
     } else if (data.current.uvi >= 6 && data.current.uvi < 8) {
-        todayUV.css("background-color", "orange");
+        $("#uviColor").css({"background-color": "orange", "color": "white"});
     } else if (data.current.uvi >= 8 && data.current.uvi < 11){
-        todayUV.css("background-color", "red");
+        $("#uviColor").css({"background-color": "red", "color": "white"});
     } else {
-        todayUV.css("background-color", "violet");
+        $("#uviColor").css({"background-color": "violet", "color": "black"});
     }
  }
 
 function createForecast(data, i){
     forecastWeather.append($('<div class="forecastCard"></div>'))
     let forecastTime = $('<h1>'+ moment.unix(data.daily[i].dt).format("MM/DD/YYYY") + '</h1>');
-    let forecastTempDay = $('<p>' + data.daily[i].temp.day + '</p>');
-    let forecastTempNight = $('<p>' + data.daily[i].temp.night + '</p>');
-    let forecastWind = $('<p>' + data.daily[i].wind_speed + '</p>');
-    let forecastHumidity = $('<p>' + data.daily[i].humidity + '</p>');
+    let weathericonLink = "http://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png";
+    let weathericon = $('<div class="icon"><img src="' + weathericonLink + '" alt="Weather icon"></div>');
+    let forecastTempDay = $('<p>' +  "Day Temp: " + Math.round(data.daily[i].temp.day) + unitsArray[0] + '</p>');
+    let forecastTempNight = $('<p>' +  "Night Temp: " + Math.round(data.daily[i].temp.night) +  unitsArray[0] +'</p>');
+    let forecastWind = $('<p>' +  "Wind: " + data.daily[i].wind_speed +  unitsArray[1] +'</p>');
+    let forecastHumidity = $('<p>' +  "Humidity: " + data.daily[i].humidity +  unitsArray[2] +'</p>');
     forecastWeather.children().eq(i-1).append(forecastTime);
+    forecastWeather.children().eq(i-1).append(weathericon);
     forecastWeather.children().eq(i-1).append(forecastTempDay);
     forecastWeather.children().eq(i-1).append(forecastTempNight);
     forecastWeather.children().eq(i-1).append(forecastWind);

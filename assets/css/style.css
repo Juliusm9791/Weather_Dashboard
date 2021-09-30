@@ -1,3 +1,66 @@
+* {
+  font-family: Arial, Helvetica, sans-serif
+}
+
+/*                 Header  */
+
+body {
+  display: block;
+}
+
+#mainPage {
+  display: flex;
+}
+
+header {
+  background-color: lightblue;
+  text-align: center;
+  padding: 20px;
+  margin: 0px;
+
+}
+aside {
+  display: block;
+  flex: 1;
+}
+section {
+  display: block;
+  flex: 3;
+}
+
+#forecastWeather {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  flex: 1 0 250px;
+
+}
+
+.forecastCard {
+  margin: 10px;
+  background-color: lightgray;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #cityButton {
   border: 0;
   line-height: 2.5;

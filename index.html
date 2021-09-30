@@ -10,30 +10,32 @@
   <header>
     <h1>Weather Dashboard</h1>
   </header>
-  <aside>
-    <p>Select a maintenance drone:</p>
+  <div id="mainPage">
+    <aside>
+      <p>Select a maintenance drone:</p>
 
-    <div>
-      <input type="radio" id="metric" name="units" value="metric">
-      <label for="metric">Celsius</label>
-    </div>
-    
-    <div>
-      <input type="radio" id="imperial" name="units" value="imperial" checked>
-      <label for="imperial">Fahrenheit</label>
-    </div>
-
-    <label for="city">Search for a City:</label>
-    <input type="text" id="city" name="name">
-    <button type="button" id="cityButton">Search</button>
-      <div id="ArrayButtons"></div>
-  </aside>
-  <section>
-    <div id ="todayWeather">
+      <div>
+        <input type="radio" id="metric" name="units" value="metric">
+        <label for="metric">Celsius</label>
       </div>
-    <div id ="forecastWeather">
-    </div>
-  </section>
+      
+      <div>
+        <input type="radio" id="imperial" name="units" value="imperial" checked>
+        <label for="imperial">Fahrenheit</label>
+      </div>
+
+      <label for="city">Search for a City:</label>
+      <input type="text" id="city" name="name">
+      <button type="button" id="cityButton">Search</button>
+        <div id="ArrayButtons"></div>
+    </aside>
+    <section>
+      <div id ="todayWeather">
+        </div>
+      <div id ="forecastWeather">
+      </div>
+    </section>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
