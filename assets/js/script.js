@@ -93,9 +93,9 @@ function fetchWeather(queryURLCity) {
             console.log(data);
             createToday(data, cityName)
             forecastWeather.empty();
-            for (i = 1; i < 6; i++) {
+            for (i = 0; i < 5; i++) {
                 console.log(i)
-                createForecast(data, i)
+                createForecast(data, i+1)
             }
         }); 
     }); 
@@ -105,7 +105,7 @@ function createToday(data, cityName){
     console.log(todayWeather)
     todayWeather.empty();
     let weathericonLink = "http://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png";
-    let cityToday = $('<h1>' + cityName + ' ' + moment.unix(data.current.dt).format("(MM/DD/YYYY)") + '</h1>');
+    let cityToday = $('<h1>' + cityName + ' ' + moment.unix(data.current.dt + data.timezone_offset).format("(MM/DD/YYYY)") + '</h1>');
     let weathericon = $('<div class="icon"><img src="' + weathericonLink + '" alt="Weather icon"></div>');
     let todayTemp = $('<p>' + "Temp: " + Math.round(data.current.temp) + unitsArray[0] + '</p>');
     let todayWind = $('<p>' +  "Wind: " + data.current.wind_speed +  unitsArray[1] +'</p>');
@@ -132,7 +132,7 @@ function createToday(data, cityName){
 
 function createForecast(data, i){
     forecastWeather.append($('<div class="forecastCard"></div>'))
-    let forecastTime = $('<h1>'+ moment.unix(data.daily[i].dt).format("MM/DD/YYYY") + '</h1>');
+    let forecastTime = $('<h1>'+ moment.unix(data.daily[i].dt + data.timezone_offset).format("MM/DD/YYYY") + '</h1>');
     let weathericonLink = "http://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png";
     let weathericon = $('<div class="icon"><img src="' + weathericonLink + '" alt="Weather icon"></div>');
     let forecastTempDay = $('<p>' +  "Day Temp: " + Math.round(data.daily[i].temp.day) + unitsArray[0] + '</p>');
