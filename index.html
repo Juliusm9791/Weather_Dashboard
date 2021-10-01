@@ -12,20 +12,21 @@
   </header>
   <div id="mainPage">
     <aside>
-      <div>
-        <input type="radio" id="metric" name="units" value="metric">
-        <label for="metric">Celsius</label>
+      <div id="inputSearch">
+        <div>
+          <div>
+            <input type="radio" id="metric" name="units" value="metric">
+            <label for="metric">Celsius</label>
+          </div>
+          <div>
+            <input type="radio" id="imperial" name="units" value="imperial" checked>
+            <label for="imperial">Fahrenheit</label>
+          </div>
+        </div>
+        <label for="citySearch">Search for a City:</label>
+        <input type="text" id="citySearch" name="name">
+        <button type="button" id="cityButton">Search</button>
       </div>
-      
-      <div>
-        <input type="radio" id="imperial" name="units" value="imperial" checked>
-        <label for="imperial">Fahrenheit</label>
-      </div>
-
-      <label for="citySearch">Search for a City:</label>
-      <input type="text" id="citySearch" name="name">
-      <button type="button" id="cityButton">Search</button>
-      <hr>
         <div id="arrayButtons"></div>
     </aside>
     <section>
@@ -34,6 +35,7 @@
       <div id ="forecastWeather">
       </div>
     </section>
+
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src ="https://momentjs.com/downloads/moment-timezone-with-data-1970-2030.js"></script>

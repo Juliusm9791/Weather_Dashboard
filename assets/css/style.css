@@ -39,19 +39,36 @@ section {
 
 }
 
+#todayWeather {
+  margin-left: 15px;
+}
+
+
 .forecastCard {
   margin: 10px;
+  padding: 10px;
   background-color: lightgray;
 }
 #arrayButtons{
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
  }
  
+ #inputSearch {
+   display: flex;
+   flex-direction: column;
+  border-bottom: 3px solid gray;
+ }
+ #inputSearch div{
+   display: inline;
+   margin-bottom: 10px;
+ }
+
+
 #citySearch{
   padding: 5px;
-  margin: 5px;
-
+  margin: 5px 0px;
 }
 
 .cityArrayButton {
@@ -81,6 +98,7 @@ section {
 
 
 #cityButton {
+  margin-bottom: 10px;
   border: 0;
   line-height: 2.5;
   padding: 0 20px;
