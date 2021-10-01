@@ -20,12 +20,15 @@ header {
 
 }
 aside {
-  display: block;
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  margin: 5px;
+  padding: 15px
 }
 section {
   display: block;
-  flex: 3;
+  flex: 4;
 }
 
 #forecastWeather {
@@ -39,6 +42,22 @@ section {
 .forecastCard {
   margin: 10px;
   background-color: lightgray;
+}
+#arrayButtons{
+  display: flex;
+  flex-direction: column;
+ }
+ 
+#citySearch{
+  padding: 5px;
+  margin: 5px;
+
+}
+
+.cityArrayButton {
+  width: 100%;
+  padding: 5px;
+  margin: 5px 0px;
 }
 
 

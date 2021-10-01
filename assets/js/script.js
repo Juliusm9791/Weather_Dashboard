@@ -1,10 +1,11 @@
 let APIKey = "b929c0e3026118ea0292882110d701a8";
-let cityNameEl = $("#city");
+let cityNameEl = $("#citySearch");
 let forecastWeather = $("#forecastWeather");
 let todayWeather = $("#todayWeather");
-let cityArrayButtons = $("#ArrayButtons");
+let cityArrayButtons = $("#arrayButtons");
 
 let city = null;
+let checkCityInput = false;
 let metricUnitsArray = [" °C", " m/s", " %"];
 let imperialUnitsArray = [" °F", " MPH", " %"];
 let unitsArray = imperialUnitsArray;
@@ -25,16 +26,18 @@ function getDataFromMemory() {
     console.log(cityArray)
 // show data in html
     for (i = 0; i < cityArray.length; i++) {
-        let cityButton = $('<button type="button" class="cityArrayButtons">' + cityArray[i] + '</button>');
+        let cityButton = $('<button type="button" class="cityArrayButton">' + cityArray[i] + '</button>');
         cityArrayButtons.append(cityButton);
     }
 }
     
-$(".cityArrayButtons").on("click", citySelected);
+$("#arrayButtons").on("click", citySelected);
 
 function citySelected(event){
-    console.log("ppppppp")
-    console.log($(event.target));
+    city = $(event.target).text();
+    checkCityInput = true;
+    inputCity();
+
 }
 
 
@@ -55,13 +58,24 @@ $('input[type=radio][name=units]').change(function() {
     }
 });
 
-$("#cityButton").on("click", function(){
-    city = cityNameEl.val();
+$("#cityButton").on("click", inputCity);
+
+function inputCity(){
+    console.log(city, checkCityInput)
+    if (!checkCityInput){
+        city = cityNameEl.val();
+        if (city === "")
+        console.log("EMPTY no city")
+    }
+    console.log(city)
+    checkCityInput = false;
     cityArray.push(city);
     localStorage.setItem("cityArray", JSON.stringify(cityArray))
     let queryURLCity = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + APIKey;
     fetchWeather(queryURLCity);
-});
+    let cityButton = $('<button type="button" class="cityArrayButton">' + city + '</button>');
+    cityArrayButtons.append(cityButton);
+}
 
 
 function fetchWeather(queryURLCity) {
@@ -102,10 +116,13 @@ function fetchWeather(queryURLCity) {
 }
 
 function createToday(data, cityName){
-    console.log(todayWeather)
     todayWeather.empty();
     let weathericonLink = "http://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png";
-    let cityToday = $('<h1>' + cityName + ' ' + moment.unix(data.current.dt + data.timezone_offset).format("(MM/DD/YYYY)") + '</h1>');
+
+    console.log(data.timezone)
+    console.log(moment.tz(data.timezone).format("(MM/DD/YYYY) h m "), "TZ")
+
+    let cityToday = $('<h1>' + cityName + ' ' + moment.tz(data.timezone).format("(MM/DD/YYYY) h m ") + '</h1>');
     let weathericon = $('<div class="icon"><img src="' + weathericonLink + '" alt="Weather icon"></div>');
     let todayTemp = $('<p>' + "Temp: " + Math.round(data.current.temp) + unitsArray[0] + '</p>');
     let todayWind = $('<p>' +  "Wind: " + data.current.wind_speed +  unitsArray[1] +'</p>');
@@ -132,7 +149,7 @@ function createToday(data, cityName){
 
 function createForecast(data, i){
     forecastWeather.append($('<div class="forecastCard"></div>'))
-    let forecastTime = $('<h1>'+ moment.unix(data.daily[i].dt + data.timezone_offset).format("MM/DD/YYYY") + '</h1>');
+    let forecastTime = $('<h1>'+ moment.unix(data.daily[i].dt).format("MM/DD/YYYY") + '</h1>');
     let weathericonLink = "http://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png";
     let weathericon = $('<div class="icon"><img src="' + weathericonLink + '" alt="Weather icon"></div>');
     let forecastTempDay = $('<p>' +  "Day Temp: " + Math.round(data.daily[i].temp.day) + unitsArray[0] + '</p>');

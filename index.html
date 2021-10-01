@@ -12,8 +12,6 @@
   </header>
   <div id="mainPage">
     <aside>
-      <p>Select a maintenance drone:</p>
-
       <div>
         <input type="radio" id="metric" name="units" value="metric">
         <label for="metric">Celsius</label>
@@ -24,10 +22,11 @@
         <label for="imperial">Fahrenheit</label>
       </div>
 
-      <label for="city">Search for a City:</label>
-      <input type="text" id="city" name="name">
+      <label for="citySearch">Search for a City:</label>
+      <input type="text" id="citySearch" name="name">
       <button type="button" id="cityButton">Search</button>
-        <div id="ArrayButtons"></div>
+      <hr>
+        <div id="arrayButtons"></div>
     </aside>
     <section>
       <div id ="todayWeather">
@@ -37,6 +36,7 @@
     </section>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src ="https://momentjs.com/downloads/moment-timezone-with-data-1970-2030.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
   <script src='./assets/js/script.js'></script>
