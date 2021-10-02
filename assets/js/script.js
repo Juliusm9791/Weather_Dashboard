@@ -3,6 +3,7 @@ let cityNameEl = $("#citySearch");
 let forecastWeather = $("#forecastWeather");
 let todayWeather = $("#todayWeather");
 let cityArrayButtons = $("#arrayButtons");
+let clearHistory = $("#clearHistory");
 
 let city = null;
 let checkCityInput = false;
@@ -10,31 +11,30 @@ let metricUnitsArray = [" °C", " m/s", " %"];
 let imperialUnitsArray = [" °F", " MPH", " %"];
 let unitsArray = imperialUnitsArray;
 let units = "imperial"; // metric
-let weatherTodayAndF = null;
-
-let lat;
-let lon;
-
 let cityArray = [];
+
+// clearHistory.css({"display": "none"});
+
 $(document).ready(getDataFromMemory);
     
 function getDataFromMemory() {
     cityArray = JSON.parse(localStorage.getItem("cityArray"));
     if (cityArray === null) {
         cityArray = [];
+        clearHistory.css({"display": "none"});
     }
     showCityButtons()
 }
 
 function showCityButtons(){
-    $("#arrayButtons").empty();
+    cityArrayButtons.empty();
     for (i = cityArray.length -1; i >= 0; i--) {
         let cityButton = $('<button type="button" class="cityArrayButton">' + cityArray[i] + '</button>');
         cityArrayButtons.append(cityButton);
     }
 }
     
-$("#arrayButtons").on("click", citySelected);
+cityArrayButtons.on("click", citySelected);
 
 function citySelected(event){
     city = $(event.target).text();
@@ -43,35 +43,31 @@ function citySelected(event){
 }
 
 function checkCityArray(){
-        let maxArayLength = 10;
-        if (cityArray.includes(city)){
-            let cityIndex = cityArray.indexOf(city);
-            cityArray.splice(cityIndex, 1);
-            cityArray.push(city);
-        } else if(cityArray.length >= maxArayLength){
-            cityArray.splice(0, 1);
-            cityArray.push(city);
-        } else {
-            cityArray.push(city);
-        }
-        localStorage.setItem("cityArray", JSON.stringify(cityArray))
-    
+    let maxArayLength = 10;
+    if (cityArray.includes(city)){
+        let cityIndex = cityArray.indexOf(city);
+        cityArray.splice(cityIndex, 1);
+        cityArray.push(city);
+    } else if(cityArray.length >= maxArayLength){
+        cityArray.splice(0, 1);
+        cityArray.push(city);
+    } else {
+        cityArray.push(city);
+    }
+    localStorage.setItem("cityArray", JSON.stringify(cityArray))
+    clearHistory.css({"display": "block"});  
 }
 
 $('input[type=radio][name=units]').change(function() {
     if (this.value === 'metric') {
         units = $("#metric").val()
-        console.log(units)
         unitsArray = [];
         unitsArray = metricUnitsArray;
-        console.log(unitsArray)
     }
     else if (this.value === 'imperial') {
         units = $("#imperial").val()
-        console.log(units)
         unitsArray = [];
         unitsArray = imperialUnitsArray;
-        console.log(unitsArray)
     }
 });
 
@@ -79,65 +75,53 @@ $("#cityButton").on("click", inputCity);
 
 function inputCity(){
     if (!checkCityInput){
-        city = cityNameEl.val();
+        fixCityName();
         cityNameEl.val("");
-        if (city === "")
-        console.log("EMPTY no city")
+        if (city === "") {
+            errorMessage('<h1> Enter City Name</h1>')
+            return;
+        }
     }
     checkCityInput = false;
     let queryURLCity = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + APIKey;
     fetchWeather(queryURLCity);
-    checkCityArray();
-    showCityButtons();
 }
 
 function fetchWeather(queryURLCity) {
     fetch(queryURLCity)
     .then(function (response) {
-        console.log(response)
         if (response.status === 404) {
-                // todayWeather.empty();
-                // let message = $('<h1> No Data found </h1>');
-                // todayWeather.append(message);
-            console.log("No city");
-
+            errorMessage('<h1> No City Found Load Failed</h1>')
         } else {
             return response.json();
         }
     })
     .then(function (data) {
         if (data.length === 0){
-            console.log(cityArray.length)
-            cityArray.splice((cityArray.length-1), 1);
-            todayWeather.empty();
-            forecastWeather.empty();
-            let message = $('<h1> No City found </h1>');
-            todayWeather.append(message);
+            errorMessage('<h1> No City Found</h1>')
         } else {
-            console.log(data);
-            lat = data[0].lat;
-            lon = data[0].lon;
+            // console.log(data);
+            let lat = data[0].lat;
+            let lon = data[0].lon;
             let cityName = data[0].name + ", " + data[0].country;
             let queryURLToday = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=" + units + "&exclude=minutely,hourly,alerts&appid=" + APIKey;
                 
             fetch(queryURLToday)
             .then(function (response) {
                 if (response.status === 404) {
-                //     todayWeather.empty();
-                //     let message = $('<h1> No Data found </h1>');
-                //     todayWeather.append(message);
-                //    console.log("No data found");
+                    errorMessage('<h1> Bad Citi Cordiantes Load Failed</h1>')
                 } else {
                 return response.json();
                 }
             })
             .then(function (data) {
-                console.log(data);
                 createToday(data, cityName)
                 forecastWeather.empty();
                 for (i = 0; i < 5; i++) {
                     createForecast(data, i+1)
                 }
+                checkCityArray();
+                showCityButtons();
             }); 
         }
     }); 
@@ -146,17 +130,16 @@ function fetchWeather(queryURLCity) {
 function createToday(data, cityName){
     todayWeather.empty();
     let weathericonLink = "http://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png";
-
-    console.log(moment.tz(data.timezone).format("(MM/DD/YYYY) h m "), "TZ")
-
+    let cityAndIcon = $('<div></div>');
     let cityToday = $('<h1>' + cityName + ' ' + moment.tz(data.timezone).format("(MM/DD/YYYY)") + '</h1>');
     let weathericon = $('<div class="icon"><img src="' + weathericonLink + '" alt="Weather icon"></div>');
     let todayTemp = $('<p>' + "Temp: " + Math.round(data.current.temp) + unitsArray[0] + '</p>');
     let todayWind = $('<p>' +  "Wind: " + data.current.wind_speed +  unitsArray[1] +'</p>');
     let todayHumidity = $('<p>' +  "Humidity: " + data.current.humidity +  unitsArray[2] +'</p>');
     let todayUV = $('<p>' +  "UV Index: " + "<span id='uviColor'>" + data.current.uvi + "</span></p>" );
-    todayWeather.append(cityToday);
-    todayWeather.append(weathericon);
+    todayWeather.append(cityAndIcon);
+    todayWeather.children().append(cityToday);
+    todayWeather.children().append(weathericon);
     todayWeather.append(todayTemp);
     todayWeather.append(todayWind);
     todayWeather.append(todayHumidity);
@@ -190,5 +173,25 @@ function createForecast(data, i){
     forecastWeather.children().eq(i-1).append(forecastWind);
     forecastWeather.children().eq(i-1).append(forecastHumidity);
 }
+
+function errorMessage(msg){
+    todayWeather.empty();
+    forecastWeather.empty();
+    let message = $(msg);
+    todayWeather.append(message);
+}
+
+function fixCityName(){
+    city = cityNameEl.val().trim()
+    city = city.toLowerCase()
+    city = city.charAt(0).toUpperCase() + city.slice(1);
+}
+
+clearHistory.on("click", function(){
+    cityArrayButtons.empty()
+    cityArray = [];
+    localStorage.removeItem("cityArray");
+    clearHistory.css({"display": "none"});
+});
 
 

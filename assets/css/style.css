@@ -27,7 +27,8 @@ aside {
   padding: 15px
 }
 section {
-  display: block;
+  display: flex;
+  flex-direction: column;
   flex: 4;
 }
 
@@ -40,15 +41,34 @@ section {
 }
 
 #todayWeather {
-  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
 }
 
+#todayWeather p{
+  margin: 0.5em;
+}
+#todayWeather div{
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 5px;
+}
+
+#uviColor {
+  padding: 3px 10px;
+}
 
 .forecastCard {
   margin: 10px;
   padding: 10px;
   background-color: lightgray;
 }
+
+.forecastCard h1 {
+  margin: 5px 0px;
+}
+
 #arrayButtons{
   margin-top: 10px;
   display: flex;
@@ -77,27 +97,7 @@ section {
   margin: 5px 0px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#cityButton {
+.assideButton {
   margin-bottom: 10px;
   border: 0;
   line-height: 2.5;
@@ -116,11 +116,11 @@ section {
               inset -2px -2px 3px rgba(0, 0, 0, .6);
 }
 
-#cityButton:hover {
+.assideButton:hover {
   background-color: rgba(255, 0, 0, 1);
 }
 
-#cityButton:active {
+.assideButton:active {
   box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
               inset 2px 2px 3px rgba(0, 0, 0, .6);
 }
