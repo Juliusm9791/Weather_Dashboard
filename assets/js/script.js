@@ -13,7 +13,8 @@ let unitsArray = imperialUnitsArray;
 let units = "imperial"; // metric
 let cityArray = [];
 
-// clearHistory.css({"display": "none"});
+todayWeather.css({"border": "none"});
+$(".marginLR").css({"display": "none"});
 
 $(document).ready(getDataFromMemory);
     
@@ -72,6 +73,13 @@ $('input[type=radio][name=units]').change(function() {
 });
 
 $("#cityButton").on("click", inputCity);
+cityNameEl.on("keyup", function(event) {
+    console.log(event.keyCode)
+    if (event.keyCode === 13) {
+     event.preventDefault();
+     inputCity();
+    }
+  });
 
 function inputCity(){
     if (!checkCityInput){
@@ -117,6 +125,7 @@ function fetchWeather(queryURLCity) {
             .then(function (data) {
                 createToday(data, cityName)
                 forecastWeather.empty();
+                // forecastWeather.append($('<h1>5-days Forecast:</h1>'));
                 for (i = 0; i < 5; i++) {
                     createForecast(data, i+1)
                 }
@@ -128,6 +137,7 @@ function fetchWeather(queryURLCity) {
 }
 
 function createToday(data, cityName){
+    todayWeather.css({"border": "1px solid gray"});
     todayWeather.empty();
     let weathericonLink = "http://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png";
     let cityAndIcon = $('<div></div>');
@@ -158,6 +168,7 @@ function createToday(data, cityName){
  }
 
 function createForecast(data, i){
+    $(".marginLR").css({"display": "flex"});
     forecastWeather.append($('<div class="forecastCard"></div>'))
     let forecastTime = $('<h1>'+ moment.unix(data.daily[i].dt).format("MM/DD/YYYY") + '</h1>');
     let weathericonLink = "http://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png";
@@ -179,12 +190,18 @@ function errorMessage(msg){
     forecastWeather.empty();
     let message = $(msg);
     todayWeather.append(message);
+    todayWeather.css({"border": "none"});
+    $(".marginLR").css({"display": "none"});
 }
 
 function fixCityName(){
     city = cityNameEl.val().trim()
     city = city.toLowerCase()
-    city = city.charAt(0).toUpperCase() + city.slice(1);
+    let citySplit = city.split(" ");
+    for (i = 0; i < citySplit.length; i++){
+        citySplit[i] = citySplit[i].charAt(0).toUpperCase() + citySplit[i].slice(1);
+    }
+    city = citySplit.join(" ")
 }
 
 clearHistory.on("click", function(){
