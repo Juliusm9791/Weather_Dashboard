@@ -16,6 +16,8 @@ let cityArray = [];
 todayWeather.css({"border": "none"});
 $(".marginLR").css({"display": "none"});
 
+
+// Read form local storage "Search history"
 $(document).ready(getDataFromMemory);
     
 function getDataFromMemory() {
@@ -27,6 +29,7 @@ function getDataFromMemory() {
     showCityButtons()
 }
 
+// Show search history buttons
 function showCityButtons(){
     cityArrayButtons.empty();
     for (i = cityArray.length -1; i >= 0; i--) {
@@ -35,6 +38,7 @@ function showCityButtons(){
     }
 }
     
+// On clicked history assigns city to display and rearrange array max array length 10
 cityArrayButtons.on("click", citySelected);
 
 function citySelected(event){
@@ -59,6 +63,7 @@ function checkCityArray(){
     clearHistory.css({"display": "block"});  
 }
 
+// Choose metric or imperial
 $('input[type=radio][name=units]').change(function() {
     if (this.value === 'metric') {
         units = $("#metric").val()
@@ -72,15 +77,16 @@ $('input[type=radio][name=units]').change(function() {
     }
 });
 
+// On click or enter button assigns city 
 $("#cityButton").on("click", inputCity);
 cityNameEl.on("keyup", function(event) {
-    console.log(event.keyCode)
     if (event.keyCode === 13) {
      event.preventDefault();
      inputCity();
     }
-  });
+});
 
+// Looking for a geo coordinates for city
 function inputCity(){
     if (!checkCityInput){
         fixCityName();
@@ -95,6 +101,7 @@ function inputCity(){
     fetchWeather(queryURLCity);
 }
 
+// Looking for a weather info (using city coordinates)
 function fetchWeather(queryURLCity) {
     fetch(queryURLCity)
     .then(function (response) {
@@ -108,7 +115,6 @@ function fetchWeather(queryURLCity) {
         if (data.length === 0){
             errorMessage('<h1> No City Found</h1>')
         } else {
-            // console.log(data);
             let lat = data[0].lat;
             let lon = data[0].lon;
             let cityName = data[0].name + ", " + data[0].country;
@@ -125,7 +131,6 @@ function fetchWeather(queryURLCity) {
             .then(function (data) {
                 createToday(data, cityName)
                 forecastWeather.empty();
-                // forecastWeather.append($('<h1>5-days Forecast:</h1>'));
                 for (i = 0; i < 5; i++) {
                     createForecast(data, i+1)
                 }
@@ -136,6 +141,7 @@ function fetchWeather(queryURLCity) {
     }); 
 }
 
+// Creating and displaying today’s weather
 function createToday(data, cityName){
     todayWeather.css({"border": "1px solid gray"});
     todayWeather.empty();
@@ -154,7 +160,8 @@ function createToday(data, cityName){
     todayWeather.append(todayWind);
     todayWeather.append(todayHumidity);
     todayWeather.append(todayUV);
-    if (data.current.uvi < 3) {
+    // Sets UV index color
+    if (data.current.uvi < 3) {                                             
         $("#uviColor").css({"background-color": "green", "color": "white"});
     }  else if (data.current.uvi >= 3 && data.current.uvi < 6){
         $("#uviColor").css({"background-color": "yellow", "color": "black"});
@@ -167,6 +174,7 @@ function createToday(data, cityName){
     }
  }
 
+ // Creating and displaying Forecast weather
 function createForecast(data, i){
     $(".marginLR").css({"display": "flex"});
     forecastWeather.append($('<div class="forecastCard"></div>'))
@@ -185,6 +193,7 @@ function createForecast(data, i){
     forecastWeather.children().eq(i-1).append(forecastHumidity);
 }
 
+// Displays error mesage
 function errorMessage(msg){
     todayWeather.empty();
     forecastWeather.empty();
@@ -194,6 +203,7 @@ function errorMessage(msg){
     $(".marginLR").css({"display": "none"});
 }
 
+// Fixing customer input: removing extra spaces and making all words with first cap letter
 function fixCityName(){
     city = cityNameEl.val().trim()
     city = city.toLowerCase()
@@ -204,11 +214,10 @@ function fixCityName(){
     city = citySplit.join(" ")
 }
 
+// Clear history button
 clearHistory.on("click", function(){
     cityArrayButtons.empty()
     cityArray = [];
     localStorage.removeItem("cityArray");
     clearHistory.css({"display": "none"});
 });
-
-

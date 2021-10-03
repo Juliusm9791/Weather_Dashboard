@@ -2,8 +2,6 @@
   font-family: Arial, Helvetica, sans-serif
 }
 
-/*                 Header  */
-
 body {
   display: block;
 }
@@ -32,6 +30,16 @@ section {
   flex: 5;
 }
 
+.radio {
+  font-size: 14px;
+}
+
+.font16B {
+  font-weight: bolder;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
 .marginLR {
   margin: 10px 0px 0px 15px;
 }
@@ -57,9 +65,8 @@ section {
 }
 
 #todayWeather div{
-  display: flex;
-  justify-content: flex-start;
   margin-left: 5px;
+  display: inherit;
 }
 
 #uviColor {
@@ -76,6 +83,11 @@ section {
   margin: 5px 0px;
 }
 
+.forecastCard p {
+  font-weight: bolder;
+  width: 180px;
+}
+
 #arrayButtons{
   margin-top: 10px;
   display: flex;
@@ -88,8 +100,8 @@ section {
   border-bottom: 3px solid gray;
  }
  #inputSearch div{
-   display: inline;
-   margin-bottom: 10px;
+  display: block;
+  margin-bottom: 5px;
  }
 
 
@@ -114,7 +126,7 @@ section {
   color: #fff;
   text-shadow: 1px 1px 1px #000;
   border-radius: 10px;
-  background-color: rgba(220, 0, 0, 1);
+  background-color: rgb(100, 180, 250);
   background-image: linear-gradient(to top left,
                                     rgba(0, 0, 0, .2),
                                     rgba(0, 0, 0, .2) 30%,
@@ -124,10 +136,28 @@ section {
 }
 
 .assideButton:hover {
-  background-color: rgba(255, 0, 0, 1);
+  background-color: rgba(100, 180, 250);
 }
 
 .assideButton:active {
   box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
               inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+
+  #mainPage {
+    display: flex;
+    flex-direction: column;
+  }
+  aside {
+   flex: 1;
+  }
+  section {
+    flex: 3;
+  }
+
 }

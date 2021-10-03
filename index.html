@@ -3,7 +3,6 @@
 <head>
   <meta charset='utf-8'>
    <title>Weather Dashboard</title>
-  <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/> -->
   <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/style.css'>
 </head>
 <body>
@@ -16,14 +15,14 @@
         <div>
           <div>
             <input type="radio" id="metric" name="units" value="metric">
-            <label for="metric">Celsius</label>
+            <label class="radio" for="metric">Celsius</label>
           </div>
           <div>
             <input type="radio" id="imperial" name="units" value="imperial" checked>
-            <label for="imperial">Fahrenheit</label>
+            <label class="radio" for="imperial">Fahrenheit</label>
           </div>
         </div>
-        <label for="citySearch">Search for a City:</label>
+        <label class="font16B" for="citySearch">Search for a City:</label>
         <input type="text" id="citySearch" name="name">
         <button type="submit" id="cityButton" class="assideButton">Search</button>
       </div>
@@ -42,7 +41,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src ="https://momentjs.com/downloads/moment-timezone-with-data-1970-2030.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
   <script src='./assets/js/script.js'></script>
 </body>
 </html>
