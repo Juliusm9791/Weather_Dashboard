@@ -3,15 +3,16 @@ When you search for a city weather, then it will show current and future conditi
 
 Weather information for current day:
 
-City name, country code current city date, and icon of weather conditions.
+City name, country code, current city date, and icon of weather conditions.
 
 The temperature, the humidity, the wind speed, and the UV index.
 
 UV index presented with a color that indicates whether the conditions.
 
+#### UV index color chart
 ![UVI](./assets/images/uvi.jpg)
 
-Ten bellow is a 5-day forecast that displays the date, an icon representation of weather conditions, the day and night temperature, the wind speed, and the humidity.
+Then bellow is a 5-day forecast that displays the date, an icon representation of weather conditions, the day and night temperature, the wind speed, and the humidity.
 
 When you click on a city in the search history, then it again will show current and future conditions for that city.
 
