@@ -28,7 +28,7 @@ In the history it will always show city name with the first uppercase letter, no
 
 
 ## Link to website
-https://juliusm9791.github.io/Weather-Dashboard/
+https://juliusm9791.github.io/Weather_Dashboard/
 
 ## Mock-Up
 The following images shows the web application's appearance and functionality:
